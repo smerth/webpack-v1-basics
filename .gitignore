@@ -8,7 +8,6 @@
 .sass-cache
 
 # Builds
-dist
 build
 
 # Gulp gh-pages 
