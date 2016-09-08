@@ -2,16 +2,16 @@
 
 ## Install
 
-Clone the repo
-cd into each folder
-install modules
+- Clone the repo
+- cd into each folder
+- install modules
 
 @ ```terminal```
 
 ```bash
 npm install
 ```
-and then
+run webpack.
 
 ```bash
 webpack
