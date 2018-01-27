@@ -1,2 +1,2 @@
-const $ = require('jquery');
+var $ = require('jquery');
 $('#target').html('Hello The World!!!!');

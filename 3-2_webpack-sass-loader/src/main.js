@@ -11,5 +11,5 @@ class Message extends React.Component {
 	}
 }
 
-ReactDOM.render(<Message title="Email Joe" message="Can you email him?"/>, 
+ReactDOM.render(<Message title="Styled with SASS" message="This page was styled with SASS"/>, 
 	document.getElementById('react-container'));
