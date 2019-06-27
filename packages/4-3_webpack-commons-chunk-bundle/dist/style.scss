@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css?family=Patua+One&display=swap");
+
+@import url("https://fonts.googleapis.com/css?family=Rubik+Mono+One&display=swap");
+
+body,
+html {
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  background: url("/dist/rubicon.jpg");
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.page-title {
+  font-family: "Patua One", cursive;
+  font-size: 4em;
+  color: #45473a;
+  text-align: center;
+  align-self: center;
+}
+.menu {
+  font-family: "Rubik Mono One", sans-serif;
+  font-size: 1em;
+  display: flex;
+  justify-content: center;
+  margin: none;
+  li {
+    margin-right: 1em;
+    list-style: none;
+  }
+  a {
+    color: white;
+    text-decoration: none;
+    a:hover {
+      color: #85dd73;
+    }
+  }
+}

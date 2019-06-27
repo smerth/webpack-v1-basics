@@ -1,0 +1,12 @@
+{
+  "name": "learn-webpack-the-basics",
+  "version": "1.0.0",
+  "description": "Projects from the Learn Webpack - the Basics course from Lynda",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {}
+}
