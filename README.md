@@ -1,4 +1,4 @@
-# Webpack Workout v1
+# Webpack v1 Basics
 
 ## About
 
@@ -30,8 +30,6 @@ Depending on your setup you may call `python` or `python2`...
 
 The app is served at: http://0.0.0.0:8000/
 
-
-
 ## 2-3 Process ES5
 
 Transpile es5 code in `src/main.js` into vanilla javascript in `build/bundle.js`
@@ -40,50 +38,48 @@ Transpile es5 code in `src/main.js` into vanilla javascript in `build/bundle.js`
 
 ```javascript
 module.exports = {
-	entry: './src/main.js',
-	output: {
-		path: 'build',
-		filename: 'bundle.js'
-	},
-	module: {
-		loaders: [
-			{
-				test: /\.js$/,
-				exclude: /(node_modules)/,
-				loader: 'babel',
-				query: {
-					presets: ['es2015', 'react']
-				}
-			}
-		]
-	}
+  entry: "./src/main.js",
+  output: {
+    path: "build",
+    filename: "bundle.js"
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        loader: "babel",
+        query: {
+          presets: ["es2015", "react"]
+        }
+      }
+    ]
+  }
 };
 ```
 
-
-
 ## 2-4 Process Coffeescript
 
-Transpile coffeescript to javascript.  Check the console to see the output message which was written in coffeescript.
+Transpile coffeescript to javascript. Check the console to see the output message which was written in coffeescript.
 
 @ webpack.config.js
 
 ```javascript
 module.exports = {
-	entry: './main.coffee',
-	output: {
-		path: 'build',
-		filename: 'bundle.js'
-	},
-	module: {
-		loaders: [
-			{
-				test: /\.coffee$/,
-				exclude: /(node_modules)/,
-				loader: 'coffee'
-			}
-		]
-	}
+  entry: "./main.coffee",
+  output: {
+    path: "build",
+    filename: "bundle.js"
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.coffee$/,
+        exclude: /(node_modules)/,
+        loader: "coffee"
+      }
+    ]
+  }
 };
 ```
 
@@ -95,31 +91,29 @@ Transpile es5 / React and CSS.
 
 ```javascript
 module.exports = {
-	entry: './src/main.js',
-	output: {
-		path: 'build',
-		filename: 'bundle.js'
-	},
-	module: {
-		loaders: [
-			{
-				test: /\.js$/,
-				exclude: /(node_modules)/,
-				loader: 'babel',
-				query: {
-					presets: ['react', 'es2015']
-				}
-			},
-			{
-				test: /\.css$/,
-				loader: 'style-loader!css-loader'
-			}
-		]
-	}
+  entry: "./src/main.js",
+  output: {
+    path: "build",
+    filename: "bundle.js"
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        loader: "babel",
+        query: {
+          presets: ["react", "es2015"]
+        }
+      },
+      {
+        test: /\.css$/,
+        loader: "style-loader!css-loader"
+      }
+    ]
+  }
 };
 ```
-
-
 
 ## 3-2 Process SCSS
 
@@ -129,31 +123,29 @@ Transpile scss into css and inline it.
 
 ```javascript
 module.exports = {
-	entry: './src/main.js',
-	output: {
-		path: 'build',
-		filename: 'bundle.js'
-	},
-	module: {
-		loaders: [
-			{
-				test: /\.js$/,
-				exclude: /(node_modules)/,
-				loader: 'babel',
-				query: {
-					presets: ['react', 'es2015']
-				}
-			},
-			{
-				test: /\.scss$/,
-				loader: 'style-loader!css-loader!sass-loader'
-			}
-	 ]
-	}
+  entry: "./src/main.js",
+  output: {
+    path: "build",
+    filename: "bundle.js"
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        loader: "babel",
+        query: {
+          presets: ["react", "es2015"]
+        }
+      },
+      {
+        test: /\.scss$/,
+        loader: "style-loader!css-loader!sass-loader"
+      }
+    ]
+  }
 };
 ```
-
-
 
 ## 3-3 Process Images in SCSS
 
@@ -163,35 +155,33 @@ Makes image urls available in SCSS
 
 ```javascript
 module.exports = {
-	entry: './src/main.js',
-	output: {
-		path: 'build',
-		filename: 'bundle.js'
-	},
-	module: {
-		loaders: [
-			{
-				test: /\.js$/,
-				exclude: /(node_modules)/,
-				loader: 'babel',
-				query: {
-					presets: ['react', 'es2015']
-				}
-			},
-			{
-				test: /\.scss$/,
-				loader: 'style-loader!css-loader!sass-loader'
-			},
-			{
-				test: /\.(png|jpg)$/,
-				loader: 'url'
-			}
-	 ]
-	}
+  entry: "./src/main.js",
+  output: {
+    path: "build",
+    filename: "bundle.js"
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        loader: "babel",
+        query: {
+          presets: ["react", "es2015"]
+        }
+      },
+      {
+        test: /\.scss$/,
+        loader: "style-loader!css-loader!sass-loader"
+      },
+      {
+        test: /\.(png|jpg)$/,
+        loader: "url"
+      }
+    ]
+  }
 };
 ```
-
-
 
 ## 4-2 Multiple entry points
 
@@ -200,42 +190,40 @@ Processes a bundled js file for each entry point "About" and "Contact"
 @ webpack.config.js
 
 ```javascript
-var webpack = require('webpack');
-var path = require('path');
+var webpack = require("webpack");
+var path = require("path");
 
 module.exports = {
-	entry: {
-		about: './dist/about',
-		contact: './dist/contact'
-	},
-	output: {
-		path: path.join(__dirname, 'build'),
-		filename: '[name].bundle.js'
-	},
-	module: {
-		loaders: [
-			{
-				test: /\.js$/,
-				exclude: /(node_modules)/,
-				loader: 'babel',
-				query: {
-					presets: ['react', 'es2015']
-				}
-			},
-			{
-				test: /\.scss$/,
-				loader: 'style-loader!css-loader!sass-loader'
-			}, 
-				{
-			    test: /\.(png|jpg)$/,
-			    loader: 'url-loader?limit=10000'
-			}
-	 ]
-	}
+  entry: {
+    about: "./dist/about",
+    contact: "./dist/contact"
+  },
+  output: {
+    path: path.join(__dirname, "build"),
+    filename: "[name].bundle.js"
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        loader: "babel",
+        query: {
+          presets: ["react", "es2015"]
+        }
+      },
+      {
+        test: /\.scss$/,
+        loader: "style-loader!css-loader!sass-loader"
+      },
+      {
+        test: /\.(png|jpg)$/,
+        loader: "url-loader?limit=10000"
+      }
+    ]
+  }
 };
 ```
-
-
 
 4-3 Common Chunks
 
@@ -301,10 +289,7 @@ module.exports = {
     }
   }
 };
-
 ```
-
-
 
 ## 4-4 Vendor Bundles
 
@@ -370,6 +355,4 @@ module.exports = {
     }
   }
 };
-
 ```
-
