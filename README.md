@@ -1,67 +1,95 @@
-# Learn Webpack - the basics
+# Webpack Workout v1
 
-## Reference
+## About
 
-This is the project for the Lynda.com course [Learn Webpack the Basics](https://www.lynda.com/Webpack-tutorials/Learn-Webpack-Basics/483222-2.html)  which is a good intro to how to use webpack.
+A series of exercises using webpack version 1
 
-## Run the code:
+## Usage
 
-Each folder is a separate demo of some webpack functionality.  CD into each folder and perform the following:
+This is a yarn workspace.
 
-Install dependancies
+From the root run
 
 ```bash
 yarn install
 ```
 
-run webpack
+Run webpack for each app
 
 ```bash
-webpack
+yarn workspace 2-3 webpack
 ```
 
-view the webpage
+To view each app cd into the app folder and run:
 
 ```bash
-python -m http.server
+python3 -m http.server
 ```
 
+Depending on your setup you may call `python` or `python2`...
 
-## Webpack react loader
-
-ES6 syntax is transpiled to Vanilla JS
-
-
-
-## Coffeescript loader
-
-transpile Coffeescript to Vanilla JS
-
-## Css loader
-
-In addition to loading JavaScript with webpack, we can load CSS, Sass and LESS to style our pages. The benefit of loading CSS as a module like this is that webpack will only bundle the styles that our app uses. We can also require or import styles for use with certain files. Also, it will perform transformations on Sass and LESS to turn it into CSS prior to loading into a browser. Started with this we are going to create a simple component using React JS.
+The app is served at: http://0.0.0.0:8000/
 
 
 
-@ main.js
+## 2-3 Process ES5
+
+Transpile es5 code in `src/main.js` into vanilla javascript in `build/bundle.js`
+
+@ webpack.config.js
 
 ```javascript
-var React = require('react');
-var ReactDOM = require('react-dom');
-require('./style.css');
-
-class Message extends React.Component {
-	render() {
-		return (<div>
-					<h1>{this.props.title}</h1>
-					<p>{this.props.message}</p>
-				</div>);
+module.exports = {
+	entry: './src/main.js',
+	output: {
+		path: 'build',
+		filename: 'bundle.js'
+	},
+	module: {
+		loaders: [
+			{
+				test: /\.js$/,
+				exclude: /(node_modules)/,
+				loader: 'babel',
+				query: {
+					presets: ['es2015', 'react']
+				}
+			}
+		]
 	}
-}
-
-ReactDOM.render(<Message title="Styled with CSS" message="This page was styled with CSS."/>, 
-	document.getElementById('react-container'));
+};
 ```
+
+
+
+## 2-4 Process Coffeescript
+
+Transpile coffeescript to javascript.  Check the console to see the output message which was written in coffeescript.
+
+@ webpack.config.js
+
+```javascript
+module.exports = {
+	entry: './main.coffee',
+	output: {
+		path: 'build',
+		filename: 'bundle.js'
+	},
+	module: {
+		loaders: [
+			{
+				test: /\.coffee$/,
+				exclude: /(node_modules)/,
+				loader: 'coffee'
+			}
+		]
+	}
+};
+```
+
+## 3-1 Process React and CSS
+
+Transpile es5 / React and CSS.
 
 @ webpack.config.js
 
@@ -93,27 +121,9 @@ module.exports = {
 
 
 
-## Sass loader
+## 3-2 Process SCSS
 
-@ main.js
-
-```javascript
-var React = require('react');
-var ReactDOM = require('react-dom');
-require('./style.scss');
-
-class Message extends React.Component {
-	render() {
-		return (<div>
-					<h1>{this.props.title}</h1>
-					<p>{this.props.message}</p>
-				</div>);
-	}
-}
-
-ReactDOM.render(<Message title="Styled with SASS" message="This page was styled with SASS"/>, 
-	document.getElementById('react-container'));
-```
+Transpile scss into css and inline it.
 
 @ webpack.config.js
 
@@ -145,15 +155,9 @@ module.exports = {
 
 
 
-## Image loader
+## 3-3 Process Images in SCSS
 
-The process of loading images with webpack is very similar to loading CSS. With webpack we load images by using URL loader. Webpack in-lines a URL to the image bundle and then returns it from require. This is good because in-lining images will reduce the number of HTTP requests which will speed up our applications a lot.
-
-dependancies
-
-```bash
-yarn add file-loader url-loader
-```
+Makes image urls available in SCSS
 
 @ webpack.config.js
 
@@ -189,22 +193,17 @@ module.exports = {
 
 
 
-## Multiple entry points
+## 4-2 Multiple entry points
 
-With multiple entry points we create separate bundles for different pages. That way we'll only load the code that we need.
-
-Use node.js's path module
-
-@webpack.config.js
-
-```java
-var webpack = require('webpack');
-var path = require('path');
-```
+Processes a bundled js file for each entry point "About" and "Contact"
 
 @ webpack.config.js
 
 ```javascript
+var webpack = require('webpack');
+var path = require('path');
+
+module.exports = {
 	entry: {
 		about: './dist/about',
 		contact: './dist/contact'
@@ -213,50 +212,164 @@ var path = require('path');
 		path: path.join(__dirname, 'build'),
 		filename: '[name].bundle.js'
 	},
+	module: {
+		loaders: [
+			{
+				test: /\.js$/,
+				exclude: /(node_modules)/,
+				loader: 'babel',
+				query: {
+					presets: ['react', 'es2015']
+				}
+			},
+			{
+				test: /\.scss$/,
+				loader: 'style-loader!css-loader!sass-loader'
+			}, 
+				{
+			    test: /\.(png|jpg)$/,
+			    loader: 'url-loader?limit=10000'
+			}
+	 ]
+	}
+};
 ```
 
-When webpack is run a new dist folder appears with separate js files for about and contact.
 
 
+4-3 Common Chunks
 
-
-
-## Commons chunk bundler
-
-To take optimizations one step further, we can use a web pack plug in, called the CommonsChunkPlugin. The CommonsChunkPlugin will look for reused code and will create a separate bundle with common code. Then we'll load the common code into the page first and load in page specific code after that.
+Carve out the javascript common to all pages and serve as a `commons.bundle.js` file along with a `js` file specific to that page.
 
 @ webpack.config.js
 
 ```javascript
-	plugins: [
-		new CommonsChunkPlugin('commons', 'commons.bundle.js')
-	]
+var webpack = require("webpack");
+var path = require("path");
+var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+
+module.exports = {
+  entry: {
+    about: "./dist/about",
+    contact: "./dist/contact",
+    main: "./dist/main"
+  },
+  output: {
+    path: path.join(__dirname, "/build"),
+    filename: "[name].bundle.js"
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        loader: "babel",
+        query: {
+          presets: ["react", "es2015"]
+        }
+      },
+      {
+        test: /\.scss$/,
+        loader: "style-loader!css-loader!sass-loader"
+      },
+      {
+        test: /\.(png|jpg)$/,
+        loader: "url-loader?limit=10000"
+      }
+    ]
+  },
+  plugins: [new CommonsChunkPlugin("commons", "commons.bundle.js")],
+  optimization: {
+    runtimeChunk: "single",
+    splitChunks: {
+      chunks: "all",
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            // get the name. E.g. node_modules/packageName/not/this/part.js or node_modules/packageName
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+            )[1];
+            // npm package names are URL-safe, but some servers don't like @ symbols
+            return `npm.${packageName.replace("@", "")}`;
+          }
+        }
+      }
+    }
+  }
+};
+
 ```
 
 
 
-## Building vender files
+## 4-4 Vendor Bundles
 
-Now that we know how to incorporate the CommonsChunkPlugin, we can use it to create a bundle of all of library files. In other words, a vendor bundle. A vendor bundle is just filled with code that probably we didn't write, it's code that's from different libraries. Things like React, jQuery, et cetera. And we're going to bundle that all up by adjusting our CommonsChunkPlugin.
+A **vendor bundle** contains the third party code of your project.
 
-@webpack.config.js
+@ webpack.config.js
 
 ```javascript
-	entry: {
-		about: './dist/about',
-		contact: './dist/contact',
-		vendor: ['react', 'react-dom']
-	},
-	output: {
-		path: path.join(__dirname, 'build'),
-		filename: '[name].bundle.js'
-	},
+var webpack = require("webpack");
+var path = require("path");
+var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+
+module.exports = {
+  entry: {
+    about: "./dist/about",
+    contact: "./dist/contact",
+    main: "./dist/main"
+  },
+  output: {
+    path: path.join(__dirname, "/build"),
+    filename: "[name].bundle.js"
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        loader: "babel",
+        query: {
+          presets: ["react", "es2015"]
+        }
+      },
+      {
+        test: /\.scss$/,
+        loader: "style-loader!css-loader!sass-loader"
+      },
+      {
+        test: /\.(png|jpg)$/,
+        loader: "url-loader?limit=10000"
+      }
+    ]
+  },
+  plugins: [new CommonsChunkPlugin("commons", "commons.bundle.js")],
+  optimization: {
+    runtimeChunk: "single",
+    splitChunks: {
+      chunks: "all",
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            // get the name. E.g. node_modules/packageName/not/this/part.js or node_modules/packageName
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+            )[1];
+            // npm package names are URL-safe, but some servers don't like @ symbols
+            return `npm.${packageName.replace("@", "")}`;
+          }
+        }
+      }
+    }
+  }
+};
+
 ```
-
-
-
-## Webpack dev server
-
-
-
 
