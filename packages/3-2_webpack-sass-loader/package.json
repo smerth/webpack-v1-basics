@@ -20,7 +20,7 @@
     "babel-preset-react": "^6.5.0",
     "css-loader": "^0.23.1",
     "less-loader": "^2.2.3",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.0"
